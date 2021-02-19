@@ -7,29 +7,39 @@
  *  Assim para prescale de 1024 usando TIMER1:
  *  Frequência = 16MHz/1024 = 15625 Hz
  *  Tempo para contar 1 bit = 1/15625 = 6,4e-5s
- *  Tempo para contar até 62500 = 6,4e-5*65535 = 4s
+ *  Tempo para contar até 0xF424 = 6,4e-5*62500 = 4s
+ *
+ *  Assim para prescale de 1024 usando TIMER1:
+ *  Frequência do timer = 16MHz/1024 = 15625 Hz
+ *  Tempo para contar 1 bit = 1/15625 = 6,4e-5s
+ *  Tempo para contar até 0xB5EF = 6,4e-5*46575 = 3s
  *  
  *  Assim para prescale de 1024 usando TIMER1:
  *  Frequência = 16MHz/1024 = 15625 Hz
  *  Tempo para contar 1 bit = 1/15625 = 6,4e-5s
- *  Tempo para contar até 31500 = 6,4e-5*32767 = 2s
+ *  Tempo para contar até 0x7A12 = 6,4e-5*31250 = 2s
  *  
- * 
  *  Assim para prescale de 1024 usando TIMER1:
  *  Frequência = 16MHz/1024 = 15625 Hz
  *  Tempo para contar 1 bit = 1/15625 = 6,4e-5s
- *  Tempo para contar até 15750 = 6,4e-5*16383 = 1s
+ *  Tempo para contar até 0x3D09 = 6,4e-5*15325 = 1s
  */
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+
+/*
+ * A função timer_init configura os registradores necessários para
+ * que seja possível realizar interrupções por time compare, onde
+ * OCR1 determina o valor máximo da contagem do registrador TCNT1.
+ */
 void timer_init()
 {
   cli(); // Desabilidata todas as interrupções
   SREG |= (1 << SREG_I); // Bit I(7) do SREG --> ativador global de interrupções
   
-  TCNT1 = 0; // Inicia o contador em 0 (?)
+  TCNT1 = 0; // Inicia o contador em 0
   
   OCR1A = 0x7FFE; // Setar o valor máximo da comparação
   TCCR1B |= (1 << WGM12);   // Habilita o modo CTC
@@ -40,6 +50,11 @@ void timer_init()
   while(1);
   return 0;
 }
+
+/*
+ * A função gpio_init configura os registradores
+ * das GPIO que se deseja utilizar.
+ */
 void gpio_init(){
   DDRB |= (1 << DDB5); 
   PORTB &= ~(1 << PORTB5);
@@ -50,6 +65,10 @@ int main(){
   while(1);
   return 0;
 }
-ISR(TIMER1_COMPA_vect){ // Rotina de interrução por timer compare
+/*
+ * A função ISR trata-se da rotina de interrução por timer compare
+ */
+ISR(TIMER1_COMPA_vect){
   PORTB^=(1<<PORTB5);
+  TCNT1 = 0; // Garante que o contador reset
 }
