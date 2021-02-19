@@ -49,10 +49,17 @@ int main(){
     _delay_ms(1500);
   }
 }
-
-ISR(PCINT0_vect){ // Rotina de interrupção tipo PCINT
-  PORTB ^= (1 << PORTB5); // Se tiver, o LED no PCINT5(PB5) mudará de estado
+/*
+ * Rotina de interrupção tipo PCINT
+ * Onde sempre que ocorrer uma interrupção o LED mudará de estado
+ */
+ISR(PCINT0_vect){
+  PORTB ^= (1 << PORTB5);
 }
-ISR(INT0_vect){ // Rotina de interrupção tipo INT
-  PORTB ^= (1 << PORTB5); // Se tiver, o LED no PCINT5(PB5) mudará de estado
+/*
+ * Rotina de interrupção tipo INT
+ * Onde sempre que ocorrer uma interrupção o LED mudará de estado
+ */
+ISR(INT0_vect){
+  PORTB ^= (1 << PORTB5);
 }
