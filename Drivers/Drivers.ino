@@ -1,4 +1,4 @@
-re#include <avr/io.h> //Bibiloteca com as funções de E/S dos microcontroladores AVR
+#include <avr/io.h> //Bibiloteca com as funções de E/S dos microcontroladores AVR
 #include <util/delay.h> //Biblioteca com as funções de delay, como a _delay_ms, utilizada ao longo do código
 #include <stdbool.h> //Bliblioteca com as funções booleanas, como true e false, utilizadas ao longo do código
 
