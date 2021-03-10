@@ -47,8 +47,6 @@ void timer_init()
   TIMSK1 |= (1 << OCIE1A);// Habilitlita a interrupção por timer compare
   
   sei();// Habilidata todas as interrupções
-  while(1);
-  return 0;
 }
 
 /*
