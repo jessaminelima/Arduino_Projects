@@ -1,6 +1,6 @@
 /*
- *  Este programa trabalha a interrupção utilizando um TIMER (TIMER1)
- *  de 16 bits (contagem de 0 a 65535)
+ *  Este programa trabalha a interrupção por time compare
+ *  utilizando um TIMER (TIMER1) de 16 bits (contagem de 0 a 65535)
  *  Frequência da CPU = 16MHz
  */
 
@@ -21,9 +21,9 @@ void timer_init()
   TCNT1 = 0; // Inicia o contador em 0
   
   OCR1A = 0xF424; // Seta o valor máximo da comparação = 62500
-  TCCR1B |= (1 << WGM12);   // Habilita o modo CTC
+  TCCR1B |= (1 << WGM12); // Habilita o modo CTC
   TCCR1B |= (1 << CS12) | (1 << CS10); // 1024 prescaler
-  TIMSK1 |= (1 << OCIE1A);// Habilitlita a interrupção por timer compare
+  TIMSK1 |= (1 << OCIE1A); // Habilitlita a interrupção por time compare
   
   sei();// Habilidata todas as interrupções
 }
@@ -32,11 +32,13 @@ void timer_init()
  * A função gpio_init configura os registradores
  * das GPIO que se deseja utilizar.
  */
-void gpio_init(){
+void gpio_init()
+{
   DDRB |= (1 << DDB5); 
   PORTB &= ~(1 << PORTB5);
 }
-int main(){
+int main()
+{
   gpio_init();
   timer_init();
   while(1);
@@ -44,8 +46,10 @@ int main(){
 }
 /*
  * A função ISR trata-se da rotina de interrução por timer compare
+ * É inializada a cada vez que o timer alcança o valor máximo configurado
  */
-ISR(TIMER1_COMPA_vect){
-  PORTB^=(1<<PORTB5);
+ISR(TIMER1_COMPA_vect)
+{
+  PORTB ^= (1 << PORTB5); //Muda o estado do PB5
   TCNT1 = 0; // Garante que o contador reset
 }
