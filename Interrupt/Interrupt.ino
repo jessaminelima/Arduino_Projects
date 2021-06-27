@@ -21,7 +21,7 @@ void gpio_init(){
   DDRD &= ~(1 << DDB2); //PCINT18(PB2) setado como entrada
   PORTB |= (1 << PORTB2); //Pull-up no PCINT2(PB2)
   
-  DDRB |= (1 << DDB5); // PCINT5(PB2) setado como saída
+  DDRB |= (1 << DDB5); // PCINT5(PB5) setado como saída
 }
 /*
  * A função interrupt_init configura os registradores para que
