@@ -18,7 +18,7 @@ void gpio_init(){
   DDRD &= ~(1 << DDD2); //PCINT18(PD2) setado como entrada
   PORTD |= (1 << PORTD2); //Pull-up no PCINT18(PD2)
   
-  DDRD &= ~(1 << DDB2); //PCINT18(PB2) setado como entrada
+  DDRD &= ~(1 << DDB2); //PCINT2(PB2) setado como entrada
   PORTB |= (1 << PORTB2); //Pull-up no PCINT2(PB2)
   
   DDRB |= (1 << DDB5); // PCINT5(PB5) setado como saída
